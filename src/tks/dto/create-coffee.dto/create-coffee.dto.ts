@@ -1,6 +1,8 @@
 import {IsString} from 'class-validator';
 
 export class CreateCoffeeDto {
+    readonly id:number;
+
     @IsString()
     readonly name:string;
 
