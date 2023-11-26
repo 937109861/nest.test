@@ -3,6 +3,7 @@ import { response } from 'express';
 import { TksService } from 'src/tks/tks.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 
 @Controller('tks')
 export class TksController {
@@ -10,9 +11,9 @@ export class TksController {
 
 
     @Get()
-    findAll(@Query() paginationQuery){
+    findAll(@Query() paginationQuery:PaginationQueryDto){
         //const {limit,offset}=paginationQuery;
-        return this.tksService.findAll();
+        return this.tksService.findAll(paginationQuery);
     }
 
     @Get(':id')
