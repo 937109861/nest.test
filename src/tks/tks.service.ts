@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException, UnsupportedMediaTypeException } from '@nestjs/common';
 import { Coffee } from './entities/tks.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -32,15 +32,30 @@ export class TksService {
         return coffee;
     }
 
-    create(createCoffeeDto:CreateCoffeeDto){
-        const coffee = this.coffeeRepository.create(createCoffeeDto);
+    async create(createCoffeeDto:CreateCoffeeDto){
+        const flavors = await Promise.all(
+            createCoffeeDto.flavors.map(name => this.preloadFlavorByName(name)),
+            );
+        
+        const coffee = this.coffeeRepository.create({
+
+            ...createCoffeeDto,
+            flavors,
+        });
         return this.coffeeRepository.save(coffee);
     }
 
     async update(id:string,updateCoffeeDto:UpdateCoffeeDto){
+        const flavors= 
+        updateCoffeeDto.flavors&&
+        (await Promise.all(
+            updateCoffeeDto.flavors.map(name => this.preloadFlavorByName(name)),
+        ));
+        
         const coffee = await this.coffeeRepository.preload({
             id:+id,
             ...updateCoffeeDto,
+            flavors,
         });
         if(!coffee){
             throw new NotFoundException(`Coffee #${id} not found`);

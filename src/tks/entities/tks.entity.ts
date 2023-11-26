@@ -20,5 +20,5 @@ export class Coffee{
             cascade:true,
         }
         )
-    flavors:string[];
+    flavors:Flavor[];
 }
