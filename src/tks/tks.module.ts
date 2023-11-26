@@ -1,8 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TksController } from './tks.controller';
 import { TksService } from './tks.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Coffee } from './entities/tks.entity';
+import { Flavor } from './entity/flavor.entity/flavor.entity';
 
-@Module({controllers:[TksController],providers:[TksService]})
+@Module({
+    imports:[TypeOrmModule.forFeature([Coffee,Flavor])],
+    controllers:[TksController],
+    providers:[TksService]})
 export class TksModule {
 
 }

@@ -16,9 +16,9 @@ export class TksController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: number){
+    findOne(@Param('id') id: string){
         console.log(typeof id);
-        return this.tksService.findOne(''+id);
+        return this.tksService.findOne(id);
     }
 
     @Post()
