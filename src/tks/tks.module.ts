@@ -6,7 +6,7 @@ import { Coffee } from './entities/tks.entity';
 import { Flavor } from './entity/flavor.entity/flavor.entity';
 
 @Module({
-    imports:[TypeOrmModule.forFeature([Coffee,Flavor])],
+    imports:[TypeOrmModule.forFeature([Coffee,Flavor,Event])],
     controllers:[TksController],
     providers:[TksService]})
 export class TksModule {
